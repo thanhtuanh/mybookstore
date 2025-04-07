@@ -35,6 +35,11 @@ jobs:
           distribution: "temurin"
           java-version: "17"
 
+      - name: 🧪 Install Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
       - name: 🛠️ Build & Test Spring Boot Backend
         run: |
           sudo apt-get install maven  # Installiere Maven

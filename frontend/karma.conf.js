@@ -4,13 +4,6 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    browsers: ['ChromeHeadless'],  // Verwende 'ChromeHeadless' für CI/CD
-    customLaunchers: {
-      ChromeHeadless: {
-        base: 'Chrome',
-        flags: ['--headless', '--no-sandbox', '--disable-gpu', '--remote-debugging-port=9222']
-      }
-    },
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
@@ -39,7 +32,13 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml'],
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],  // Verwende 'ChromeHeadless' für CI/CD
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: ['--headless', '--no-sandbox', '--disable-gpu', '--remote-debugging-port=9222']
+      }
+    },
     restartOnFileChange: true
   });
 };
