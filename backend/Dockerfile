@@ -1,23 +1,9 @@
-# Stage 1: Build-Stage (mit Maven)
+# Dockerfile (für Spring Boot)
 FROM eclipse-temurin:17-jdk as builder
-
-# Arbeitsverzeichnis im Container setzen
 WORKDIR /app
-
-# Kopiere alle Dateien ins Container-Verzeichnis
-COPY ./backend /app
-
-# Stelle sicher, dass mvnw ausführbar ist
-RUN chmod +x mvnw
-
-# Baue das Projekt, ohne die Tests auszuführen
+COPY . .
 RUN ./mvnw clean package -DskipTests
 
-# Stage 2: Production-Stage (mit Java Runtime Environment)
 FROM eclipse-temurin:17-jre
-
-# Kopiere die gebaute JAR-Datei ins Produktions-Image
-COPY --from=builder /app/target/bookstore-backend-0.0.1-SNAPSHOT.jar /app/bookstore-backend.jar
-
-# Setze den Entry-Point zum Starten des JAR-Files
-ENTRYPOINT ["java", "-jar", "/app/bookstore-backend.jar"]
+COPY --from=builder /app/target/bookstore-backend-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
