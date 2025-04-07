@@ -97,5 +97,5 @@ jobs:
         uses: okteto/deploy-stack@latest
         with:
           name: bookstore
-          namespace: ${{ dtn }} # Okteto Namespace secret
-          token: ${{ dtn }} # Okteto API token secret
+          namespace: ${{ secrets.OKTETO_NAMESPACE }} # Okteto Namespace secret
+          token: ${{ secrets.OKTETO_TOKEN }} # Okteto API token secret
