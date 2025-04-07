@@ -15,7 +15,9 @@ services:
       - "5432:5432"
 
   backend:
-    build: ./backend
+    build:
+      context: ./ # Dies gibt den Root-Ordner als Build-Kontext an
+      dockerfile: ./backend/Dockerfile # Stelle sicher, dass Dockerfile korrekt gefunden wird
     container_name: bookstore-backend
     depends_on:
       - db
