@@ -89,13 +89,13 @@ jobs:
         run: |
           docker build -t okteto.dev/bookstore-backend:latest -f backend/Dockerfile .
 
-      - name: 📦 Push Docker Image to Okteto Registry
-        run: |
-          docker push okteto.dev/bookstore-backend:latest
+  #    - name: 📦 Push Docker Image to Okteto Registry
+  #      run: |
+  #      docker push okteto.dev/bookstore-backend:latest
 
-      - name: 🚀 Deploy to Okteto
-        uses: okteto/deploy-stack@latest
-        with:
-          name: bookstore
-          namespace: ${{ secrets.OKTETO_NAMESPACE }} # Okteto Namespace secret
-          token: ${{ secrets.OKTETO_TOKEN }} # Okteto API token secret
+  # - name: 🚀 Deploy to Okteto
+  #   uses: okteto/deploy-stack@latest
+  #   with:
+  #     name: bookstore
+  #     namespace: ${{ secrets.OKTETO_NAMESPACE }} # Okteto Namespace secret
+  #    token: ${{ secrets.OKTETO_TOKEN }} # Okteto API token secret
