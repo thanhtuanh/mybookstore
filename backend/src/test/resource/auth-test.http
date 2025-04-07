@@ -1,0 +1,12 @@
+### 1. Login (bereits gemacht)
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+### 2. Geschützte Route aufrufen mit Token
+GET http://localhost:8080/api/books
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0Mzc1MzgwOSwiZXhwIjoxNzQzODQwMjA5fQ.MTPtazTpeSWoLZ9pnRrB-1e8ArWz8N_xAs9_ojN0Nns

@@ -1,0 +1,7 @@
+name: bookstore
+build:
+  backend:
+    context: ./backend
+    dockerfile: Dockerfile
+deploy:
+  - kubectl apply -f k8s/deployment.yaml
