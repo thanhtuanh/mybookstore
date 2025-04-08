@@ -88,6 +88,12 @@ jobs:
       - name: 🛠️ Build Docker Image for Backend
         run: |
           docker build -t okteto.dev/bookstore-backend:latest -f backend/Dockerfile .
+  # deploy:
+  #   name: Deploy to Okteto (in Vorbereitung)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: TODO: Deployment zu Okteto vorbereiten
+  #       run: echo "Wird demnächst aktiviert"
 
   #    - name: 📦 Push Docker Image to Okteto Registry
   #      run: |

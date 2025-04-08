@@ -1,4 +1,3 @@
-
 # 📚 Bookstore – Vollständiges Java Fullstack Beispielprojekt
 
 Das **Bookstore**-Projekt ist der abschließende und umfassendste Teil meiner Fullstack-Java-Demo-Reihe (Teil 7).  
@@ -9,7 +8,7 @@ Es demonstriert ein praxisnahes, modernes Setup mit einem vollständigen Tech-St
 ✅ **PostgreSQL-Datenbank**  
 ✅ **JWT Login & Security**  
 ✅ **RESTful API mit Swagger-Dokumentation**  
-✅ **Containerisierung mit Docker**  
+✅ **Containerisierung mit Docker & docker-compose**  
 ✅ **CI/CD mit GitHub Actions (in Arbeit)**
 
 > Dieses Projekt eignet sich ideal zur Demonstration meiner Kenntnisse für **Fullstack-Entwicklung**, **Clean Code**, **Microservice-Architektur** sowie für **technische Interviews** oder Bewerbungsprozesse im Java-Umfeld.
@@ -25,7 +24,7 @@ Es demonstriert ein praxisnahes, modernes Setup mit einem vollständigen Tech-St
 - 🧵 Logging & Debugging
 - 🌍 API dokumentiert via Swagger UI (`/swagger-ui.html`)
 - 💾 PostgreSQL (alternativ H2 für Dev)
-- 🐳 Docker-Setup (Dockerfile & docker-compose)
+- 🐳 Docker-Setup mit `docker-compose`
 - 📦 Strukturierte Projektaufteilung (Controller, Service, DTO, Model, Security)
 
 ---
@@ -41,57 +40,31 @@ Der Login wird mit JWT durchgeführt und schützt das System vor unbefugtem Zugr
 
 ---
 
-## 🚀 **Schnelle Anleitung zum Starten**
+## 🚀 **Schnelle Anleitung mit Docker (empfohlen)**
 
-### 1. **Projekt klonen**
+Mit `docker-compose` kannst du die komplette Anwendung mit einem Befehl starten.
 
-Um das Projekt zu starten, klone das Repository:
+### ✅ Voraussetzungen
 
-```bash
-git clone https://github.com/deinname/bookstore.git
-cd bookstore
-```
+- [Docker](https://www.docker.com/) und [Docker Compose](https://docs.docker.com/compose/) installiert
 
-### 2. **Backend starten (Spring Boot)**
+### ▶️ Anwendung starten
 
-1. Gehe in das Backend-Verzeichnis:
+1. Klone das Repository:
+
    ```bash
-   cd backend
+   git clone https://github.com/thanhtuanh/mybookstore.git
+   cd mybookstore
    ```
 
-2. Baue und starte das Backend:
-   ```bash
-   ./mvnw clean install
-   ./mvnw spring-boot:run
-   ```
+2. Starte alle Komponenten (Datenbank, Backend, Frontend):
+   docker-compose up --build
 
-   Das Backend läuft auf `localhost:8080` und verwendet PostgreSQL.
-
-### 3. **Frontend starten (Angular)**
-
-1. Gehe ins Frontend-Verzeichnis:
-   ```bash
-   cd frontend
-   ```
-
-2. Installiere die Abhängigkeiten:
-   ```bash
-   npm install
-   ```
-
-3. Starte die Entwicklungsumgebung:
-   ```bash
-   npm start
-   ```
-
-   Das Frontend läuft auf `localhost:4200`.
-
-### 4. **Erste Nutzung**
-
-- Besuche die Anwendung im Browser unter [http://localhost:4200](http://localhost:4200).
-- Melde dich mit dem Admin-Account (`admin` / `admin`) an, um Zugang zu den Funktionen zu erhalten.
-
----
+3. Öffne das Frontend im Browser:
+   👉 http://localhost:4200
+4. Melde dich an mit:
+   Benutzername: admin
+   Passwort: admin
 
 ## 🧪 **Testing und CI/CD**
 
@@ -103,11 +76,15 @@ cd bookstore
 
 ---
 
-## 🖼️ **Screenshots**
+## 🖼️ Screenshots & Dokumentation (PDF)
 
-- **Frontend**: Bildschirmansicht der Anwendung und Benutzeroberfläche.
-- **Backend**: Test- und Coverage-Berichte.
-  
+Hier findest du die wichtigsten Screenshots zur Benutzeroberfläche, Backend-Logik und dem CI/CD-Prozess.
+
+- 📘 [Frontend (PDF)](assets/screenshots/frontend.pdf)
+- 🛠️ [Backend (PDF)](assets/screenshots/backend.pdf)
+- 🚀 [Testing & Deployment (PDF)](assets/screenshots/testing-deploy.pdf)
+
+
 ---
 
 ## 📄 **License**
