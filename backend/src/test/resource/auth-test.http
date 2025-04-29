@@ -10,3 +10,8 @@ Content-Type: application/json
 ### 2. Geschützte Route aufrufen mit Token
 GET http://localhost:8080/api/books
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0Mzc1MzgwOSwiZXhwIjoxNzQzODQwMjA5fQ.MTPtazTpeSWoLZ9pnRrB-1e8ArWz8N_xAs9_ojN0Nns
+
+
+### 3. GET Route aufrufen mit Token
+GET http://localhost:8080/api/books
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0NTkyMzg0OSwiZXhwIjoxNzQ2MDEwMjQ5fQ.28oRtBjFZcFd7tTOgBv4SrXgHm35TT-jX-dxrVFL85Q

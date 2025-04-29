@@ -1,4 +1,0 @@
-# Ignoriere alle generierten Dateien
-/backend/target/
-frontend/node_modules/
-frontend/dist/

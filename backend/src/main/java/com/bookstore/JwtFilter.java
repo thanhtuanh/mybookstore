@@ -2,11 +2,16 @@ package com.bookstore;
 
 import com.bookstore.service.JwtService;
 import com.bookstore.user.CustomUserDetailsService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +26,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
+    private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
+
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
 
@@ -31,32 +38,68 @@ public class JwtFilter extends OncePerRequestFilter {
             String jwt = getJwtFromRequest(request);
 
             if (StringUtils.hasText(jwt) && SecurityContextHolder.getContext().getAuthentication() == null) {
-                String username = jwtService.extractUsername(jwt);
+                try {
+                    String username = jwtService.extractUsername(jwt);
 
-                if (StringUtils.hasText(username)) {
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    if (StringUtils.hasText(username)) {
+                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-                    if (jwtService.validateToken(jwt, userDetails)) {
-                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
+                        if (jwtService.validateToken(jwt, userDetails)) {
+                            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
 
-                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            SecurityContextHolder.getContext().setAuthentication(authToken);
+                        }
+                    }
+                } catch (ExpiredJwtException e) {
+                    logger.warn("Abgelaufenes JWT für IP {}: {}", request.getRemoteAddr(), e.getMessage());
+
+                    if (isApiRequest(request)) {
+                        sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED,
+                                "token_expired", "Ihr Token ist abgelaufen. Bitte melden Sie sich erneut an.");
+                        return;
+                    }
+                } catch (JwtException e) {
+                    logger.warn("Ungültiges JWT für IP {}: {}", request.getRemoteAddr(), e.getMessage());
+
+                    if (isApiRequest(request)) {
+                        sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED,
+                                "invalid_token", "Ungültiger Authentifizierungstoken.");
+                        return;
                     }
                 }
             }
-        } catch (Exception e) {
-            logger.error("JWT Authentifizierung fehlgeschlagen", e);
-        }
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+
+        } catch (Exception e) {
+            logger.error("Interner Fehler bei der JWT-Authentifizierung", e);
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "auth_error", "Fehler bei der Authentifizierung.");
+        }
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
+        return (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer "))
+                ? bearerToken.substring(7)
+                : null;
+    }
+
+    private boolean isApiRequest(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        String contentType = request.getHeader("Content-Type");
+        return path.startsWith("/api/") ||
+                (contentType != null && contentType.contains(MediaType.APPLICATION_JSON_VALUE));
+    }
+
+    private void sendErrorResponse(HttpServletResponse response, int status, String error, String message)
+            throws IOException {
+        response.setStatus(status);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        String json = String.format("{\"error\":\"%s\",\"message\":\"%s\"}", error, message);
+        response.getWriter().write(json);
+        response.getWriter().flush(); // Sicherstellen, dass die Antwort gesendet wird
     }
 }
