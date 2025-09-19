@@ -1,5 +1,6 @@
 # Ignoriere alle generierten Dateien
 /backend/target/
+*.class
 frontend/node_modules/
 frontend/dist/
 .history/
