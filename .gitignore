@@ -1,6 +1,82 @@
-# Ignoriere alle generierten Dateien
-/backend/target/
+# -------------------------------
+# OS / Allgemein
+# -------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# -------------------------------
+# IDE / Editor
+# -------------------------------
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# -------------------------------
+# Java / Spring Boot
+# -------------------------------
+# Klassen & Logs
 *.class
+*.log
+spring.log
+hs_err_pid*
+replay_pid*
+
+# Maven / Gradle Builds
+target/
+**/target/
+.gradle/
+build/
+**/build/
+
+# Falls du strikt nur das Backend-Target ignorieren willst, zusätzlich:
+# (deckt sich mit obigen Regeln; explizit auf Wunsch)
+backend/target/
+# oder mit Slash-Präfix:
+# /backend/target/
+
+# -------------------------------
+# Node / Frontend (Angular/React/Vite)
+# -------------------------------
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build-Outputs
+dist/
+**/dist/
+.tmp/
+.cache/
+.angular/
+
+# projekt-spezifisch
 frontend/node_modules/
 frontend/dist/
+
+# -------------------------------
+# Tests / Coverage
+# -------------------------------
+coverage/
+**/coverage/
+.jest/
+.cypress/
+
+# -------------------------------
+# Umgebungsvariablen
+# -------------------------------
+.env
+.env.*
+!.env.example
+
+# -------------------------------
+# Docker / Sonstiges
+# -------------------------------
+**/.docker/
 .history/
